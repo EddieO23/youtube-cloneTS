@@ -54,12 +54,12 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Components/Card";
 import axios from "axios";
-import { HomeVideoCard } from "../utils/Types";
+import { HomeVideoCardType } from "../utils/Types";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 function Home() {
-  const [homeVideos, setHomeVideos] = useState<HomeVideoCard[]>([]);
+  const [homeVideos, setHomeVideos] = useState<HomeVideoCardType[]>([]);
 
   const fetchHomeVideos = async () => {
     try {
@@ -97,8 +97,8 @@ function Home() {
 
   return (
     <div className="row row-cols-3 w-[95%] mx-auto mt-6">
-      {homeVideos.map((video) => (
-        <Card key={video.videoId} video={video} /> // Provide a unique key
+      {homeVideos?.map((item) => (
+        <Card data={item}/> // Provide a unique key
       ))}
     </div>
   );

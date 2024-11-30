@@ -1,7 +1,7 @@
-export interface HomeVideoCard {
+export interface HomeVideoCardType {
   videoId: string
   videoTitle: string
-  videoThumnbnail: string
+  videoThumbnail: string
   videoDuration: string
   videoViews: string
   videoAge: string

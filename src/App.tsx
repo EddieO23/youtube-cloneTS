@@ -4,7 +4,9 @@ import Sidebar from "./Components/Sidebar";
 import Home from "./Pages/Home";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [filter, setFilter] = useState('home')
+
+
   return (
     <div className="">
       <div
@@ -12,7 +14,7 @@ function App() {
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
-        <Sidebar />
+        <Sidebar filter={filter} setFilter={setFilter}/>
       </div>
       <Navbar />
       <Home/>

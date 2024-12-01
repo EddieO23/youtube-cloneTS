@@ -8,6 +8,10 @@ import { TbHanger } from "react-icons/tb";
 import { MdOutlineLight } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaYoutube } from "react-icons/fa";
+import axios from "axios";
+import { useEffect } from "react";
+
+const API_KEY = import.meta.env.VITE_API_KEY
 
 const mainLinks = [
   {
@@ -55,7 +59,24 @@ const categoriesLinks = [
   },
 ];
 
-function Sidebar() {
+function Sidebar({filter, setFilter}: {
+  filter:string
+  setFilter: (filter: string) => void
+}) {
+
+const fetchAndSetCategories = async () => {
+  const response = await axios.get(`https://www.googleapis.com/youtube/v3/videoCategories?key=${API_KEY}&part=snippet&regionCode=us`)
+  console.log(response)
+}
+
+useEffect(() => {
+  fetchAndSetCategories()
+}, [])
+
+  const toggleFilter = (filterTag: string) => {
+setFilter(filterTag)
+  }
+
   return (
     <div  data-bs-toggle="offcanvas" className="w-full h-full bg-[#0c0c0c] text-white">
       <div className="flex items-center gap-8 w-[85%] mx-auto h-14">
@@ -69,7 +90,7 @@ function Sidebar() {
         </div>
         <ul className="border-b-[1px] border-zinc-700">
           {mainLinks.map(({icon,name,filterTag}) => 
-            <li key={name} className="pl-6 py-3 hover:bg-neutral-800">
+            <li key={name} className={`pl-6 py-3 hover:bg-neutral-800 ${filter == filterTag?"bg-neutral-800" : ""}`} onClick={() => toggleFilter(filterTag)}>
               <h1 className="flex items-center gap-5">
                 {icon}
                 <span className="text-sm">{name}</span>
@@ -79,7 +100,7 @@ function Sidebar() {
         </ul>
         <ul className="border-b-[1px] border-zinc-700">
           {categoriesLinks.map(({icon,name,filterTag}) => 
-            <li key={name} className="pl-6 py-3 hover:bg-neutral-800">
+            <li key={name} className={`pl-6 py-3 hover:bg-neutral-800 ${filter == filterTag?"bg-neutral-800" : ""}`} onClick={() => toggleFilter(filterTag)}>
               <h1 className="flex items-center gap-5">
                 {icon}
                 <span className="text-sm">{name}</span>

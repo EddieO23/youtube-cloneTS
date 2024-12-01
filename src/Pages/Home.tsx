@@ -5,14 +5,15 @@ import { HomeVideoCardType } from "../utils/Types";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-function Home() {
+function Home({filter, categoryId} : {filter: string, categoryId: string|null}) {
   const [homeVideos, setHomeVideos] = useState<HomeVideoCardType[]>([]);
 
   const fetchHomeVideos = async () => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,statistics,contentDetails&chart=mostPopular&maxResults=20&videoCategoryId=10`
+        `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,statistics,contentDetails&chart=mostPopular&${categoryId != null ? `videoCategoryId=${categoryId}` : ``}&maxResults=20`
       );
+      console.log(response)
 
       const videoData = response.data.items.map((item: any) => {
         return {
@@ -54,13 +55,13 @@ const videos = videoData.map((video: HomeVideoCardType) => ({
 
       setHomeVideos(videos);
     } catch (error) {
-      console.error("Error fetching videos:", error);
+      console.error(`Error fetching ${filter} videos:`, error);
     }
   };
 
   useEffect(() => {
     fetchHomeVideos();
-  }, []);
+  }, [categoryId]);
 
   useEffect(() => {
     // console.log(homeVideos);
@@ -69,7 +70,7 @@ const videos = videoData.map((video: HomeVideoCardType) => ({
   return (
     <div className="row row-cols-3 w-[95%] mx-auto mt-6">
       {homeVideos?.map((item) => (
-        <Card data={item} /> // Provide a unique key
+        <Card key={item.videoId}data={item} /> // Provide a unique key
       ))}
     </div>
   );

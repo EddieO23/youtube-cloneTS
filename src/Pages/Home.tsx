@@ -4,10 +4,14 @@ import axios from "axios";
 import { HomeVideoCardType } from "../utils/Types";
 import { useHome } from "../Hooks/useHome";
 
-
-function Home({filter, categoryId} : {filter: string, categoryId: string|null}) {
-
-  const {homeVideos, fetchHomeVideos} = useHome()
+function Home({
+  filter,
+  categoryId,
+}: {
+  filter: string;
+  categoryId: string | null;
+}) {
+  const { homeVideos, fetchHomeVideos } = useHome();
 
   useEffect(() => {
     fetchHomeVideos(filter, categoryId);

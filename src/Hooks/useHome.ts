@@ -6,7 +6,15 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 
 export const useHome = () => {
-  const [homeVideos, setHomeVideos] = useState<HomeVideoCardType[]>([]);
+interface HomeHookPropType(
+  videos: HomeVideoCardType[],
+  nextPageToken: string | null  ,
+)
+
+  const [homeVideos, setHomeVideos] = useState<HomeHookPropType>({
+    videos:[],
+    nextPageToken: null
+  });
 
 
   const fetchHomeVideos = async (filter: string, categoryId: string | null) => {
@@ -14,7 +22,7 @@ export const useHome = () => {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,statistics,contentDetails&chart=mostPopular&${categoryId != null ? `videoCategoryId=${categoryId}` : ``}&maxResults=20`
       );
-      console.log(response)
+      // console.log(response)
 
       const videoData = response.data.items.map((item: any) => {
         return {

@@ -23,7 +23,7 @@ function Home({
 
   return (
     <div className="row row-cols-3 w-[95%] mx-auto mt-6">
-      // <>{categoryId}</>
+       {/* <>{categoryId}</> */}
       {homeVideos?.map((item) => (
         <Card key={item.videoId} data={item} /> // Provide a unique key
       ))}
